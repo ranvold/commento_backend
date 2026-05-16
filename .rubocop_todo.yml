@@ -1,0 +1,4 @@
+Rails/Output:
+  Exclude:
+    - db/seeds.rb
+    - db/seeds/*.seeds.rb
