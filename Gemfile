@@ -10,7 +10,7 @@ gem "pg", "~> 1.6", ">= 1.6.3"
 gem "puma", "~> 8.0", ">= 8.0.1"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem 'bcrypt', '~> 3.1', '>= 3.1.22'
+gem "bcrypt", "~> 3.1", ">= 3.1.22"
 
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
 gem "solid_cable", "~> 3.0", ">= 3.0.12"
