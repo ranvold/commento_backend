@@ -113,11 +113,11 @@ Layout/SpaceBeforeFirstArg:
 Layout/SpaceInLambdaLiteral:
   Enabled: true
 
-# Use `[ a, [ b, c ] ]` not `[a, [b, c]]`
+# Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
 # Use `[]` not `[ ]`
 Layout/SpaceInsideArrayLiteralBrackets:
   Enabled: true
-  EnforcedStyle: space
+  EnforcedStyle: no_space
   EnforcedStyleForEmptyBrackets: no_space
 
 # Use `%w[ a b ]` not `%w[ a   b ]`.
