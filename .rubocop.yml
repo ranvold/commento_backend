@@ -16,6 +16,18 @@ AllCops:
   Exclude:
     - 'db/schema*.rb'
 
+RSpec/EmptyExampleGroup:
+  Exclude:
+    - "spec/requests/**/*_spec.rb"
+
+RSpec/MultipleMemoizedHelpers:
+  Exclude:
+    - "spec/requests/**/*_spec.rb"
+
+RSpec/VariableName:
+  AllowedPatterns:
+    - Authorization
+
 Style/GuardClause:
   Enabled: false
 

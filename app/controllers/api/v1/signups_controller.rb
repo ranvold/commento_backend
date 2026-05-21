@@ -17,6 +17,6 @@ class Api::V1::SignupsController < ApplicationController
   private
 
   def signup_params
-    params.permit(:username, :password)
+    params.expect(signup: %i[username password])
   end
 end
