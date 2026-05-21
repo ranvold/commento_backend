@@ -25,6 +25,6 @@ class Api::V1::SessionsController < ApplicationController
   private
 
   def session_params
-    params.permit(:username, :password)
+    params.expect(session: %i[username password])
   end
 end

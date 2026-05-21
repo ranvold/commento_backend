@@ -7,6 +7,11 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
+  unless Rails.env.production?
+    mount Rswag::Ui::Engine => "/api-docs"
+    mount Rswag::Api::Engine => "/api-docs"
+  end
+
   # Defines the root path route ("/")
   # root "posts#index"
 
@@ -14,6 +19,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       resource :signup, only: :create
       resource :session, only: %i[create destroy]
+      get :me, to: "me#show"
+      resources :comments, only: %i[index create update destroy]
     end
   end
 end

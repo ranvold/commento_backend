@@ -27,7 +27,16 @@ gem "kamal", "~> 2.11", ">= 2.11.0", require: false
 # gem 'image_processing', '~> 1.14'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
-# gem 'rack-cors', '~> 3.0'
+gem "rack-cors", "~> 3.0"
+
+# Agnostic pagination in plain ruby.
+gem "pagy", "~> 43.5", ">= 43.5.4"
+
+# Meilisearch integration for Ruby on Rails. See https://github.com/meilisearch/meilisearch
+gem "meilisearch-rails", "~> 0.16", ">= 0.16.0"
+
+# Generate beautiful API documentation
+gem "rswag", "~> 2.17", ">= 2.17.0"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
