@@ -84,17 +84,14 @@ Layout/EndAlignment:
 # extra level of indentation.
 Layout/IndentationConsistency:
   Enabled: true
-  EnforcedStyle: indented_internal_methods
 
 # Detect hard tabs, no hard tabs.
 Layout/IndentationStyle:
   Enabled: true
 
 # Two spaces, no tabs (for indentation).
-#
-# Doesn't behave properly with private-only concerns, so it's disabled.
 Layout/IndentationWidth:
-  Enabled: false
+  Enabled: true
 
 Layout/LeadingCommentSpace:
   Enabled: true

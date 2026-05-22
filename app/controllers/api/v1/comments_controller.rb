@@ -7,11 +7,10 @@ class Api::V1::CommentsController < ApplicationController
   before_action :authorize_owner!, only: %i[update destroy]
 
   def index
-    pagy, comments = if search_params[:query].present?
-      ms_search = Comment.pagy_search(search_params[:query], sort: ["created_at:desc"])
-      pagy(:meilisearch, ms_search, page: search_params[:page].to_i)
+    pagy, comments = if search_params[:query].present? && Meilisearch::Rails.active?
+      search_comments_using_meilisearch
     else
-      pagy(Comment.includes(:user).order(created_at: :desc), page: search_params[:page].to_i)
+      search_comments_using_active_record
     end
 
     render json: {
@@ -53,5 +52,16 @@ class Api::V1::CommentsController < ApplicationController
 
   def search_params
     params.permit(:page, :query)
+  end
+
+  def search_comments_using_meilisearch
+    ms_search = Comment.pagy_search(search_params[:query], sort: ["created_at:desc"])
+    pagy(:meilisearch, ms_search, page: search_params[:page].to_i)
+  end
+
+  def search_comments_using_active_record
+    scope = Comment.includes(:user).order(created_at: :desc)
+    scope = scope.where("body ILIKE ?", "%#{search_params[:query]}%") if search_params[:query].present?
+    pagy(scope, page: search_params[:page].to_i)
   end
 end

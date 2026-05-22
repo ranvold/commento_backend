@@ -2,7 +2,7 @@
 
 require "swagger_helper"
 
-RSpec.describe "api/v1/me", type: :request do
+RSpec.describe "Api::V1::Me", type: :request do
   path "/api/v1/me" do
     get "Returns the current authenticated user" do
       tags "Users"

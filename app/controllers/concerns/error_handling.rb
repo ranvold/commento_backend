@@ -25,7 +25,8 @@ module ErrorHandling
   end
 
   def unprocessable_content(exception)
-    render json: { message: exception.message, errors: exception.record.errors.as_json }, status: :unprocessable_content
+    render json: { message: exception.message, errors: exception.record.errors.as_json },
+           status: :unprocessable_content
   end
 
   def render_error(message, status)

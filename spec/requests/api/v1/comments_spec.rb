@@ -2,7 +2,7 @@
 
 require "swagger_helper"
 
-RSpec.describe "api/v1/comments", type: :request do
+RSpec.describe "Api::V1::Comments", type: :request do
   let(:user) { create(:user) }
   let(:Authorization) { "Bearer #{create(:api_token, user: user).token}" }
 
@@ -64,7 +64,7 @@ RSpec.describe "api/v1/comments", type: :request do
           end
         end
 
-        context "with a search query" do
+        context "with a search query when Meilisearch is active" do
           let(:query) { "search" }
           let(:comment_record) { create(:comment, user: user, body: "Searchable comment") }
           let(:meta) { { previous: nil, page: 1, next: nil, pages: 1, count: 1 } }
@@ -74,6 +74,7 @@ RSpec.describe "api/v1/comments", type: :request do
           before do
             comment_record
 
+            allow(Meilisearch::Rails).to receive(:active?).and_return(true)
             allow(Comment).to receive(:pagy_search).with(query, sort: ["created_at:desc"]).and_return(search_results)
             allow(Api::V1::CommentsController).to receive(:new).and_wrap_original do |original, *args, &block|
               original.call(*args, &block).tap do |controller|
@@ -90,6 +91,31 @@ RSpec.describe "api/v1/comments", type: :request do
             expect(response.parsed_body).to eq(
               "data" => [expected_comment_json],
               "meta" => meta.stringify_keys
+            )
+          end
+        end
+
+        context "with a search query when Meilisearch is inactive" do
+          let(:query) { "search" }
+          let(:matching_comment) { create(:comment, user: user, body: "Searchable comment") }
+          let(:comment_record) { matching_comment }
+          let(:other_comment) { create(:comment, user: user, body: "Different body") }
+
+          before do
+            matching_comment
+            other_comment
+
+            allow(Meilisearch::Rails).to receive(:active?).and_return(false)
+            allow(Comment).to receive(:pagy_search).and_call_original
+          end
+
+          run_test! do |response|
+            expect(Comment).not_to have_received(:pagy_search)
+            expect(response.parsed_body["data"]).to eq([expected_comment_json])
+            expect(response.parsed_body["meta"]).to include(
+              "page" => 1,
+              "pages" => 1,
+              "count" => 1
             )
           end
         end
