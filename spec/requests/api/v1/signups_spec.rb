@@ -2,7 +2,7 @@
 
 require "swagger_helper"
 
-RSpec.describe "api/v1/signups", type: :request do
+RSpec.describe "Api::V1::Signups", type: :request do
   path "/api/v1/signup" do
     post "Creates a user account and returns an API token" do
       tags "Signups"

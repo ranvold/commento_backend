@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       resource :session, only: %i[create destroy]
       get :me, to: "me#show"
       resources :comments, only: %i[index create update destroy]
+      resources :users, only: :index
     end
   end
 end

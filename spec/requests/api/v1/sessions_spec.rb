@@ -2,7 +2,7 @@
 
 require "swagger_helper"
 
-RSpec.describe "api/v1/sessions", type: :request do
+RSpec.describe "Api::V1::Sessions", type: :request do
   path "/api/v1/session" do
     post "Creates a session and returns an API token" do
       tags "Sessions"
