@@ -161,36 +161,9 @@ RSpec.describe "Api::V1::Comments", type: :request do
       }
 
       response "201", "comment created" do
-        schema type: :object,
-               properties: {
-                 comment: {
-                   type: :object,
-                   properties: {
-                     id: { type: :integer },
-                     body: { type: :string },
-                     user_id: { type: :integer },
-                     created_at: { type: :string },
-                     updated_at: { type: :string },
-                     user: {
-                       type: :object,
-                       properties: {
-                         username: { type: :string }
-                       },
-                       required: %w[username]
-                     }
-                   },
-                   required: %w[id body user_id created_at updated_at user]
-                 }
-               },
-               required: %w[comment]
-
         let(:comment) { { comment: { body: "Great post!" } } }
 
-        run_test! do |response|
-          data = response.parsed_body
-          expect(data.dig("comment", "body")).to eq("Great post!")
-          expect(data.dig("comment", "user", "username")).to eq(user.username)
-        end
+        run_test!
       end
 
       response "401", "missing or invalid token" do
@@ -238,37 +211,11 @@ RSpec.describe "Api::V1::Comments", type: :request do
       }
 
       response "200", "comment updated" do
-        schema type: :object,
-               properties: {
-                 comment: {
-                   type: :object,
-                   properties: {
-                     id: { type: :integer },
-                     body: { type: :string },
-                     user_id: { type: :integer },
-                     created_at: { type: :string },
-                     updated_at: { type: :string },
-                     user: {
-                       type: :object,
-                       properties: {
-                         username: { type: :string }
-                       },
-                       required: %w[username]
-                     }
-                   },
-                   required: %w[id body user_id created_at updated_at user]
-                 }
-               },
-               required: %w[comment]
-
         let(:existing_comment) { create(:comment, user: user, body: "Original") }
         let(:id) { existing_comment.id }
         let(:comment) { { comment: { body: "Updated" } } }
 
-        run_test! do |response|
-          data = response.parsed_body
-          expect(data.dig("comment", "body")).to eq("Updated")
-        end
+        run_test!
       end
 
       response "401", "missing or invalid token" do

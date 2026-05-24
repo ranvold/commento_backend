@@ -24,20 +24,15 @@ RSpec/MultipleMemoizedHelpers:
   Exclude:
     - "spec/requests/**/*_spec.rb"
 
+RSpec/MultipleExpectations:
+  Exclude:
+    - "spec/requests/**/*_spec.rb"
+
 RSpec/VariableName:
   AllowedPatterns:
     - Authorization
 
-Style/GuardClause:
-  Enabled: false
-
-Style/ClassAndModuleChildren:
-  Enabled: false
-
 Style/Documentation:
-  Enabled: false
-
-Metrics:
   Enabled: false
 
 Style/FrozenStringLiteralComment:
@@ -181,15 +176,8 @@ Lint/UriEscapeUnescape:
 Performance/FlatMap:
   Enabled: true
 
-# Prefer assert_not over assert !
-Rails/AssertNot:
-  Include:
-    - "test/**/*"
-
-# Prefer assert_not_x over refute_x
-Rails/RefuteMethods:
-  Include:
-    - "test/**/*"
+Rails/SkipsModelValidations:
+  Enabled: false
 
 # We generally prefer &&/|| but like low-precedence and/or in context
 Style/AndOr:
@@ -224,21 +212,6 @@ Style/PercentLiteralDelimiters:
     "%w": "[]"
     "%W": "[]"
 
-# Use quotes for string literals when they are enough.
-Style/RedundantPercentQ:
-  Enabled: false
-
-Style/RedundantReturn:
-  Enabled: true
-  AllowMultipleReturnValues: true
-
-Style/Semicolon:
-  Enabled: true
-  AllowAsExpressionSeparator: true
-
-Style/StabbyLambdaParentheses:
-  Enabled: true
-
 # Use `"foo"` not `'foo'` unless escaping is required
 Style/StringLiterals:
   Enabled: true
@@ -247,13 +220,3 @@ Style/StringLiterals:
 Style/StringLiteralsInInterpolation:
   Enabled: true
   EnforcedStyle: double_quotes
-
-
-Style/TrailingCommaInArguments:
-  Enabled: true
-
-Style/TrailingCommaInArrayLiteral:
-  Enabled: true
-
-Style/TrailingCommaInHashLiteral:
-  Enabled: true

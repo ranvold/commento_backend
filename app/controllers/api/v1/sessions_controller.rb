@@ -1,30 +1,30 @@
 # frozen_string_literal: true
 
-class Api::V1::SessionsController < ApplicationController
-  allow_unauthenticated_access only: :create
+module Api
+  module V1
+    class SessionsController < ApplicationController
+      allow_unauthenticated_access only: :create
 
-  def create
-    user = User.find_by(username: session_params[:username])&.authenticate(session_params[:password])
+      def create
+        api_token = Users::Login.call(params: session_params)
 
-    raise UnauthorizedError unless user
+        Current.user = api_token.user
+        Current.api_token = api_token
 
-    api_token = user.login!
+        render json: { token: api_token.token }, status: :created
+      end
 
-    Current.user = api_token.user
-    Current.api_token = api_token
+      def destroy
+        Current.api_token.destroy!
 
-    render json: { token: api_token.token }, status: :created
-  end
+        head :no_content
+      end
 
-  def destroy
-    Current.api_token.destroy
+      private
 
-    head :no_content
-  end
-
-  private
-
-  def session_params
-    params.expect(session: %i[username password])
+      def session_params
+        params.expect(session: %i[username password])
+      end
+    end
   end
 end

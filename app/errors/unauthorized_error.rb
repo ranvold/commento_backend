@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class UnauthorizedError < StandardError
+class UnauthorizedError < ApplicationError
   def initialize(msg = "Unauthorized")
-    super
+    super(message: msg, status: :unauthorized)
   end
 end
