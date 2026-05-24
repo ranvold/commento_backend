@@ -5,17 +5,7 @@ class User < ApplicationRecord
 
   has_many :api_tokens, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :notifications, foreign_key: :recipient_id, inverse_of: :recipient, dependent: :destroy
 
   validates :username, presence: true, uniqueness: true
-
-  def signup!
-    self.class.transaction do
-      save!
-      login!
-    end
-  end
-
-  def login!
-    api_tokens.create!
-  end
 end

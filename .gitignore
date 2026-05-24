@@ -32,3 +32,10 @@
 /config/*.key
 
 /swagger
+/.claude
+/.agents
+/.github/instructions
+/.github/copilot-instructions.md
+/.github/FUNDING.yml
+
+AGENTS.md

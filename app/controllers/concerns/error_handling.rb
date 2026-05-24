@@ -4,6 +4,7 @@ module ErrorHandling
   extend ActiveSupport::Concern
 
   included do
+    rescue_from ApplicationError, with: :application_error
     rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_content
     rescue_from ActiveRecord::RecordNotFound, with: :not_found
     rescue_from ActionController::ParameterMissing, with: :bad_request
@@ -27,6 +28,10 @@ module ErrorHandling
   def unprocessable_content(exception)
     render json: { message: exception.message, errors: exception.record.errors.as_json },
            status: :unprocessable_content
+  end
+
+  def application_error(exception)
+    render_error(exception.message, exception.status)
   end
 
   def render_error(message, status)

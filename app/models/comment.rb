@@ -14,4 +14,8 @@ class Comment < ApplicationRecord
 
     sortable_attributes [:created_at]
   end
+
+  def mentioned_usernames
+    body.to_s.scan(/@([a-zA-Z0-9_]+)/).flatten.uniq
+  end
 end
