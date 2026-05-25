@@ -5,6 +5,7 @@ class Comment < ApplicationRecord
   extend Pagy::Search
 
   belongs_to :user
+  has_many :notifications, as: :notifiable, dependent: :destroy
 
   validates :body, presence: true
 

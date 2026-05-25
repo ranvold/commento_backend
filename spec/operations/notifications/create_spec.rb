@@ -29,7 +29,7 @@ RSpec.describe Notifications::Create do
       call
       expect(ActionCable.server).to have_received(:broadcast).with(
         "users:#{recipient.id}:notifications",
-        { type: "notification_created" }
+        { type: NotificationBroadcast::TYPE }
       )
     end
 
@@ -52,6 +52,24 @@ RSpec.describe Notifications::Create do
 
     it "creates no notifications" do
       expect { call }.not_to change(Notification, :count)
+    end
+  end
+
+  context "when a notification already exists for the recipient and comment" do
+    let(:recipients) { User.where(id: recipient.id) }
+
+    before do
+      create(:notification, recipient: recipient, actor: author, notifiable: comment)
+    end
+
+    it "does not create a duplicate notification" do
+      expect { call }.not_to change(Notification, :count)
+    end
+
+    it "does not broadcast again" do
+      call
+
+      expect(ActionCable.server).not_to have_received(:broadcast)
     end
   end
 end

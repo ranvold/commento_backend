@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 class NotificationBroadcast
-  def self.call(notification:)
+  TYPE = "mentioning"
+
+  def self.call(recipient_id:)
     ActionCable.server.broadcast(
-      "users:#{notification.recipient_id}:notifications",
+      "users:#{recipient_id}:notifications",
       {
-        type: "notification_created"
+        type: TYPE
       }
     )
   end

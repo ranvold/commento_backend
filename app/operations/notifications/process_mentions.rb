@@ -9,9 +9,9 @@ module Notifications
 
       return if usernames.empty?
 
-      users = User.where(username: usernames)
+      recipients = User.where(username: usernames)
 
-      Notifications::Create.call(comment: comment, recipients: users)
+      Notifications::Create.call(comment: comment, recipients: recipients)
     end
   end
 end

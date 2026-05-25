@@ -8,6 +8,13 @@ RSpec.describe Comment, type: :model do
       comment = build(:comment)
       expect(comment.user).to be_a(User)
     end
+
+    it "destroys associated notifications when deleted" do
+      comment = create(:comment)
+      create(:notification, notifiable: comment)
+
+      expect { comment.destroy }.to change(Notification, :count).by(-1)
+    end
   end
 
   describe "validations" do
