@@ -3,6 +3,8 @@
 require "swagger_helper"
 
 RSpec.describe "Api::V1::Comments", type: :request do
+  include ActiveJob::TestHelper
+
   let(:user) { create(:user) }
   let(:Authorization) { "Bearer #{create(:api_token, user: user).token}" }
 
@@ -211,11 +213,32 @@ RSpec.describe "Api::V1::Comments", type: :request do
       }
 
       response "200", "comment updated" do
-        let(:existing_comment) { create(:comment, user: user, body: "Original") }
+        let(:alice) { create(:user, username: "alice") }
+        let(:bob) { create(:user, username: "bob") }
+        let!(:charlie) { create(:user, username: "charlie") }
+        let(:existing_comment) { create(:comment, user: user, body: "Original @alice @bob") }
         let(:id) { existing_comment.id }
-        let(:comment) { { comment: { body: "Updated" } } }
+        let(:comment) { { comment: { body: "Updated @alice @charlie" } } }
 
-        run_test!
+        before do
+          create(:notification, recipient: alice, actor: user, notifiable: existing_comment)
+          create(:notification, recipient: bob, actor: user, notifiable: existing_comment)
+          allow(NotificationBroadcast).to receive(:call)
+        end
+
+        around do |example|
+          perform_enqueued_jobs do
+            example.run
+          end
+        end
+
+        run_test! do
+          expect(existing_comment.reload.body).to eq("Updated @alice @charlie")
+          expect(existing_comment.notifications.mention.pluck(:recipient_id)).to contain_exactly(alice.id, charlie.id)
+          expect(NotificationBroadcast).to have_received(:call).with(recipient_id: alice.id).once
+          expect(NotificationBroadcast).to have_received(:call).with(recipient_id: bob.id).once
+          expect(NotificationBroadcast).to have_received(:call).with(recipient_id: charlie.id).once
+        end
       end
 
       response "401", "missing or invalid token" do
