@@ -9,15 +9,19 @@ module Comments
 
       comment.update!(params)
 
-      process_comment_mentions if comment.mentioned_usernames.any?
+      process_comment_mention_changes if mention_changes?
     end
 
     private
 
     attr_reader :comment
 
-    def process_comment_mentions
-      ProcessCommentMentionsJob.perform_later(comment.id)
+    def process_comment_mention_changes
+      ProcessCommentMentionChangesJob.perform_later(comment.id)
+    end
+
+    def mention_changes?
+      comment.mentioned_usernames.any? || comment.notifications.mention.exists?
     end
   end
 end

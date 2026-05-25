@@ -32,7 +32,7 @@ module Api
       end
 
       def destroy
-        @comment.destroy!
+        Comments::Destroy.call(comment: @comment)
         head :no_content
       end
 
