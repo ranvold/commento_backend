@@ -35,6 +35,12 @@ RSpec.describe Comment, type: :model do
       expect(comment.mentioned_usernames).to eq(%w[alice bob])
     end
 
+    it "extracts email-style usernames as a single mention" do
+      comment = build(:comment, body: "hi @davert@codegyre.com and @max")
+
+      expect(comment.mentioned_usernames).to eq(["davert@codegyre.com", "max"])
+    end
+
     it "returns unique usernames when the same handle appears multiple times" do
       comment = build(:comment, body: "@alice @alice")
       expect(comment.mentioned_usernames).to eq(["alice"])
@@ -63,6 +69,12 @@ RSpec.describe Comment, type: :model do
     it "handles mixed-case usernames" do
       comment = build(:comment, body: "@Alice @BOB")
       expect(comment.mentioned_usernames).to eq(%w[Alice BOB])
+    end
+
+    it "does not treat plain email addresses as mentions" do
+      comment = build(:comment, body: "Reach me at davert@codegyre.com")
+
+      expect(comment.mentioned_usernames).to eq([])
     end
   end
 end

@@ -29,3 +29,10 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            username:
+              single_word_without_spaces_or_at: "must be a single word without spaces or @"

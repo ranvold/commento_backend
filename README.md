@@ -170,12 +170,6 @@ Start the Rails API:
 bin/dev
 ```
 
-Start the background job worker in a second terminal:
-
-```bash
-bin/jobs
-```
-
 The API will be available at `http://localhost:3000`.
 
 ### Notes about search locally
