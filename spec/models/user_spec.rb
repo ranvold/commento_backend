@@ -30,10 +30,41 @@ RSpec.describe User, type: :model do
       expect(user).not_to be_valid
     end
 
+    it "strips surrounding whitespace from the username before validation" do
+      user = build(:user, username: "  alice  ")
+
+      user.validate
+
+      expect(user.username).to eq("alice")
+    end
+
     it "is invalid with a duplicate username" do
       create(:user, username: "alice")
       user = build(:user, username: "alice")
       expect(user).not_to be_valid
+    end
+
+    it "is invalid with a duplicate username after normalization" do
+      create(:user, username: "alice")
+      user = build(:user, username: "  alice  ")
+
+      expect(user).not_to be_valid
+    end
+
+    it "is invalid when the username contains spaces" do
+      user = build(:user, username: "alice smith")
+
+      user.validate
+
+      expect(user.errors[:username]).to include("must be a single word without spaces or @")
+    end
+
+    it "is invalid when a new username contains @" do
+      user = build(:user, username: "alice@smith")
+
+      user.validate
+
+      expect(user.errors[:username]).to include("must be a single word without spaces or @")
     end
   end
 end
