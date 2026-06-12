@@ -6,7 +6,7 @@ This repository contains the Rails API only. The React frontend lives in a separ
 
 ## Live Demo
 
-- Frontend: https://commento-iota.vercel.app
+- Frontend: https://commento-frontend.vercel.app
 - Backend: deployed to Render
 
 The production API is configured to accept requests from the Vercel frontend and to use Meilisearch in production.
@@ -58,7 +58,7 @@ The implementation covers the requested scope:
 
 Fastest way to review the task from the UI:
 
-1. Open the frontend at https://commento-iota.vercel.app
+1. Open the frontend at https://commento-frontend.vercel.app
 2. Sign up two different users
 3. Create a comment as one user mentioning the other, for example `Hello @alice`
 4. Sign in as the mentioned user and open notifications

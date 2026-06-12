@@ -7,7 +7,7 @@ gem "rails", "~> 8.1", ">= 8.1.3"
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.6", ">= 1.6.3"
 # Use the Puma web server [https://github.com/puma/puma]
-gem "puma", "~> 8.0", ">= 8.0.1"
+gem "puma", "~> 8.0", ">= 8.0.2"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1", ">= 3.1.22"
