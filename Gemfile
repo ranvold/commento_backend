@@ -30,7 +30,7 @@ gem "image_processing", "~> 1.14"
 gem "rack-cors", "~> 3.0"
 
 # Agnostic pagination in plain ruby.
-gem "pagy", "~> 43.5", ">= 43.5.4"
+gem "pagy", "~> 43.5"
 
 # Meilisearch integration for Ruby on Rails. See https://github.com/meilisearch/meilisearch
 gem "meilisearch-rails", "~> 0.16", ">= 0.16.0"
