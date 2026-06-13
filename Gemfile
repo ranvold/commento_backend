@@ -46,7 +46,7 @@ group :development, :test do
   gem "bundler-audit", "~> 0.9.3", require: false
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
-  gem "brakeman", "~> 8.0", ">= 8.0.4", require: false
+  gem "brakeman", "~> 8.0", require: false
 
   # rspec-rails integrates the Rails testing helpers into RSpec
   gem "rspec-rails", "~> 8.0", ">= 8.0.4"
