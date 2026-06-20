@@ -21,7 +21,7 @@ gem "solid_queue", "~> 1.4", ">= 1.4.0"
 gem "bootsnap", "~> 1.24", ">= 1.24.4", require: false
 
 # Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
-gem "kamal", "~> 2.11", ">= 2.11.0", require: false
+gem "kamal", "~> 2.12", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", "~> 1.14"
